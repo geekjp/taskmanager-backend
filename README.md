@@ -35,10 +35,6 @@ src/
 ## 🔐 Authentication Flow
 
 Login → JWT generated → Token sent in Authorization header → Protected APIs accessed
-## ⚙️ Run Locally
-
-npm install
-npm run dev
 
 Author: Jatin Panchal
 
