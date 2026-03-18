@@ -77,18 +77,17 @@ export const getTasks = asyncHandler(async (req, res) => {
   });
 
   sendResponse(res, {
-  message: "Tasks fetched successfully",
-  data: {
-    items: tasks,
-    meta: {
-      page,
-      limit,
-      totalItems: totalTasks,
-      totalPages: Math.ceil(totalTasks / limit)
-    }
-  }
-});
-
+    message: "Tasks fetched successfully",
+    data: {
+      items: tasks,
+      meta: {
+        page,
+        limit,
+        totalItems: totalTasks,
+        totalPages: Math.ceil(totalTasks / limit),
+      },
+    },
+  });
 });
 
 // @desc    Update task
@@ -107,8 +106,9 @@ export const updateTask = asyncHandler(async (req, res) => {
   }
 
   // 🔐 Ownership check
-  //Why use toString() becoz MongoDB ObjectId ≠ JS string Convert both → compare safely
-  if (task.user.toString() !== req.user._id.toString()) {
+  const taskOwnerId = task.user._id || task.user;
+
+  if (taskOwnerId.toString() !== req.user._id.toString()) {
     throw new AppError("Not authorized to update this task", 403);
   }
 
@@ -119,12 +119,11 @@ export const updateTask = asyncHandler(async (req, res) => {
   const updatedTask = await task.save();
 
   sendResponse(res, {
-  message: "Task updated successfully",
-  data: {
-    task: updatedTask
-  }
-});
-
+    message: "Task updated successfully",
+    data: {
+      task: updatedTask,
+    },
+  });
 });
 
 // @desc    Delete task
@@ -144,8 +143,7 @@ export const deleteTask = asyncHandler(async (req, res) => {
 
   await task.deleteOne();
 
- sendResponse(res, {
-  message: "Task deleted successfully"
-});
-
+  sendResponse(res, {
+    message: "Task deleted successfully",
+  });
 });
