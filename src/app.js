@@ -22,10 +22,16 @@ const app = express();
 
 // Enables Cross-Origin Resource Sharing
 // Allows frontend (React / Postman) to communicate with backend
-app.use(
+/* app.use(
   cors({
     origin: "http://localhost:5173",
     credentials: true
+  })
+); */
+app.use(
+  cors({
+    origin: true,
+    credentials: true,
   })
 );
 
