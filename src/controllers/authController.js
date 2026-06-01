@@ -61,6 +61,18 @@ export const registerUser = asyncHandler(async (req, res) => {
 
   /*
   |--------------------------------------------------------------------------
+  | Generate JWT Token
+  |--------------------------------------------------------------------------
+  */
+
+  const token = jwt.sign(
+    { id: user._id },
+    process.env.JWT_SECRET,
+    { expiresIn: "1d" }
+  );
+
+  /*
+  |--------------------------------------------------------------------------
   | 5. Send Success Response
   |--------------------------------------------------------------------------
   | Password is NOT returned to client
@@ -69,6 +81,7 @@ export const registerUser = asyncHandler(async (req, res) => {
   statusCode: 201,
   message: "User registered successfully",
   data: {
+    token,
     user: {
       id: user._id,
       name: user.name,
